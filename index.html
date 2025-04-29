@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Card</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    .left {
+      width: 35%;
+      background-image: url('bg-main-desktop.png');
+      background-size: cover;
+      position: relative;
+    }
+
+    .card-front {
+      position: absolute;
+      top: 100px;
+      left: 80px;
+      width: 320px;
+      height: 180px;
+      background: linear-gradient(135deg, #0e35c2, #b82676);
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-front h3 {
+      letter-spacing: 2px;
+      font-size: 1.1rem;
+    }
+
+    .card-front .inside {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .card-back {
+      position: absolute;
+      top: 300px;
+      left: 400px;
+      width: 320px;
+      height: 180px;
+      background-image: url('bg-card-back.png');
+      background-size: cover;
+      background-position: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .right {
+      width: 65%;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    form {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #3c096c;
+      color: white;
+      border: none;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
+
+    .label-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .label-group input {
+      flex: 1;
+    }
+
+    label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+
+    .containers {
+      display: none;
+      text-align: center;
+    }
+
+    .containers img {
+      width: 60px;
+      margin-bottom: 20px;
+    }
+
+    .containers h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .containers p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .containers button {
+      background: #3c096c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <div class="card-front">
+      <h3 id="display-number">0000 0000 0000 0000</h3>
+      <div class="inside">
+        <p id="display-name">NAME</p>
+        <p id="display-exp">00/00</p>
+      </div>
+    </div>
+    <div class="card-back"></div>
+  </div>
+
+  <div class="right">
+    <form id="card-form">
+      <label>Cardholder Name</label>
+      <input type="text" id="input-name" placeholder="e.g. Jane Appleseed">
+
+      <label>Card Number</label>
+      <input type="text" id="input-number" placeholder="e.g. 1234 5678 9123 0000">
+
+      <label>Exp. Date (MM/YY) & CVC</label>
+      <div class="label-group">
+        <input type="text" id="input-month" placeholder="MM" maxlength="2">
+        <input type="text" id="input-year" placeholder="YY" maxlength="2">
+        <input type="text" id="input-cvc" placeholder="e.g. 123" maxlength="3">
+      </div>
+
+      <button type="submit">Confirm</button>
+    </form>
+
+
+    <div class="containers" id="thank-you">
+      <img src="icon-complete.svg" alt="Complete">
+      <h2>THANK YOU</h2>
+      <p>We've added your card details.</p>
+      <button onclick="location.reload()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("card-form");
+    const thankYou = document.getElementById("thank-you");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); 
+      form.style.display = "none";  
+      thankYou.style.display = "block"; 
+    });
+
+  const inputName = document.getElementById('input-name');
+  const displayName = document.getElementById('display-name');
+
+  const inputNumber = document.getElementById('input-number');
+  const displayNumber = document.getElementById('display-number');
+
+  const inputMonth = document.getElementById('input-month');
+  const inputYear = document.getElementById('input-year');
+  const displayExp = document.getElementById('display-exp');
+  inputName.addEventListener('input', function() {
+    displayName.textContent = inputName.value || "NAME";
+  });
+  inputNumber.addEventListener('input', function() {
+    displayNumber.textContent = inputNumber.value;
+  });
+  inputMonth.addEventListener('input', function() {
+    displayExp.textContent = (inputMonth.value) + (inputYear.value);
+  });
+
+  inputYear.addEventListener('input', function() {
+    displayExp.textContent = (inputMonth.value) + (inputYear.value);
+  });
+  </script>
+</body>
+</html>
